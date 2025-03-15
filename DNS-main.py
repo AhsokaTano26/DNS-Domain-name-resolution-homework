@@ -53,7 +53,7 @@ def build_dns_response(query_id, qname, qtype):
 
 def start_dns_server():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    server_socket.bind(('0.0.0.0', 53))
+    server_socket.bind(('0.0.0.0', 54))
     print("DNS服务器已启动，等待查询...")
 
     while True:

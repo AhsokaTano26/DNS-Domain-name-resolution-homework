@@ -19,7 +19,7 @@ def dns_query(qname, qtype, server_ip):
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
         sock.settimeout(5)
         try:
-            sock.sendto(message, (server_ip, 53))
+            sock.sendto(message, (server_ip, 54))
             data, _ = sock.recvfrom(1024)
         except socket.timeout:
             return None
