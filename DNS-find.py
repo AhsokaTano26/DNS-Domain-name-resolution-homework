@@ -132,6 +132,10 @@ def iterative_resolve(qname, qtype, server_ip):
 if __name__ == '__main__':
     qname = 'example.com'
     qtype = DNS_TYPE_A
+    if qtype == DNS_TYPE_A:
+        type1 = "A"
+    elif qtype == DNS_TYPE_NS:
+        type1 = "NS"
     server_ip = '127.0.0.1'  # 本地DNS服务器
     result = iterative_resolve(qname, qtype, server_ip)
-    print(f"{qname} 的A记录: {result}")
+    print(f"{qname} 的{type1}记录: {result}")
