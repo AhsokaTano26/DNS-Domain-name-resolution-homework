@@ -1,0 +1,4 @@
+example.com NS 0.0.0.0:10003
+www.example.com A 192.168.1.100
+mail.example.com A 192.168.1.101
+example.com MX 10 mail.example.com
