@@ -29,6 +29,22 @@ def main():
         print(f"Root Server收到查询: {domain} {query_type}")
 
         response = []
+        search_domains = [domain]
+
+        # 支持多级域名解析 (www.example.com -> example.com -> com)
+        parts = domain.split('.')
+        while len(parts) > 1:
+            parts = parts[1:]
+            search_domains.append('.'.join(parts))
+
+        # 添加通配符匹配
+        search_domains.append('*')
+
+        for search_domain in search_domains:
+            if search_domain in records:
+                print(f"[{server_address}] 收到查询: {domain} ({query_type}) 来自 {address}")
+                print(f"搜索路径: {search_domains}")
+                print(f"返回记录: {response}")
         if domain in records:
             for type_, value in records[domain]:
                 if type_ == query_type or query_type == 'ANY':
@@ -38,9 +54,7 @@ def main():
             response = ["未找到记录"]
 
         sock.sendto('\n'.join(response).encode(), address)
-    print(f"[{server_address}] 收到查询: {domain} ({query_type}) 来自 {address}")
-    print(f"搜索路径: {search_domains}")
-    print(f"返回记录: {response}")
+
 
 
 

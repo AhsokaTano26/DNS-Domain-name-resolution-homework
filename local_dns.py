@@ -4,7 +4,7 @@ import socket
 class LocalDNS:
     def __init__(self):
         self.cache = {}
-        self.root_servers = [('0.0.0.0', 10000)]
+        self.root_servers = [('127.0.0.1', 10000)]
 
     # local_dns.py 修改后核心逻辑
     def iterative_query(self, domain, query_type):

@@ -28,6 +28,24 @@ def main():
         print(f"Root Server收到查询: {domain} {query_type}")
 
         response = []
+        search_domains = [domain]
+
+        print(f"[{server_address}] 收到查询: {domain} ({query_type}) 来自 {address}")
+        print(f"搜索路径: {search_domains}")
+        print(f"返回记录: {response}")
+
+        # 支持多级域名查找（如将 www.example.com 拆分为 example.com）
+        parts = domain.split('.')
+        while len(parts) > 1:
+            parts = parts[1:]
+            search_domains.append('.'.join(parts))
+
+        for search_domain in search_domains:
+            if search_domain in records:
+                for type_, value in records[search_domain]:
+                    if type_ == query_type or query_type == 'ANY':
+                        response.append(f"{search_domain} {type_} {value}")
+                break  # 找到最接近的上级域
         if domain in records:
             for type_, value in records[domain]:
                 if type_ == query_type or query_type == 'ANY':
@@ -37,9 +55,7 @@ def main():
             response = ["未找到记录"]
 
         sock.sendto('\n'.join(response).encode(), address)
-    print(f"[{server_address}] 收到查询: {domain} ({query_type}) 来自 {address}")
-    print(f"搜索路径: {search_domains}")
-    print(f"返回记录: {response}")
+
 
 
 if __name__ == '__main__':

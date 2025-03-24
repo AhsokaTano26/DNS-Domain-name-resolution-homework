@@ -27,20 +27,19 @@ def main():
         data, address = sock.recvfrom(4096)
         domain, query_type = data.decode().split(',')
         print(f"Root Server收到查询: {domain} {query_type}")
+        print(f"[{server_address}] 收到查询: {domain} ({query_type}) 来自 {address}")
+
 
         response = []
         if domain in records:
             for type_, value in records[domain]:
                 if type_ == query_type or query_type == 'ANY':
                     response.append(f"{domain} {type_} {value}")
-
+                    print(f"返回记录: {response}")
         if not response:
             response = ["未找到记录"]
 
         sock.sendto('\n'.join(response).encode(), address)
-    print(f"[{server_address}] 收到查询: {domain} ({query_type}) 来自 {address}")
-    print(f"搜索路径: {search_domains}")
-    print(f"返回记录: {response}")
 
 if __name__ == '__main__':
     main()
